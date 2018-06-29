@@ -7,7 +7,7 @@ Vue.use(Router)
 import Layout from '@/views/layout/Layout'
 
 /** note: submenu only apppear when children.length>=1
-*   detail see  https://panjiachen.github.io/vue-element-admin-site/#/router-and-nav?id=sidebar
+*   detail see  https://panjiachen.github.io/vue-element-admin-site/guide/essentials/router-and-nav.html
 **/
 
 /**
@@ -196,6 +196,39 @@ export const asyncRouterMap = [
       { path: 'create', component: () => import('@/views/example/create'), name: 'createArticle', meta: { title: 'createArticle', icon: 'edit' }},
       { path: 'edit/:id(\\d+)', component: () => import('@/views/example/edit'), name: 'editArticle', meta: { title: 'editArticle', noCache: true }, hidden: true },
       { path: 'list', component: () => import('@/views/example/list'), name: 'articleList', meta: { title: 'articleList', icon: 'list' }}
+    ]
+  },
+
+  {
+    path: '/nested',
+    component: Layout,
+    redirect: '/nested/bar/profile',
+    name: 'nested',
+    meta: {
+      title: 'nested',
+      icon: 'nested'
+    },
+    children: [
+      {
+        path: '/nested/bar', // Must write the full path
+        component: () => import('@/views/nested/bar/index'), // Parent router-view
+        name: 'bar',
+        meta: { title: 'bar' },
+        children: [
+          {
+            path: 'profile',
+            component: () => import('@/views/nested/bar/profile'),
+            name: 'bar-profile',
+            meta: { title: 'barProfile' }
+          },
+          {
+            path: 'posts',
+            component: () => import('@/views/nested/bar/posts'),
+            name: 'bar-posts',
+            meta: { title: 'barPosts' }
+          }
+        ]
+      }
     ]
   },
 
